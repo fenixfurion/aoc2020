@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import copy
 import argparse
 
 class cabin:
@@ -25,13 +26,15 @@ class cabin:
         return True
         
     def check_direction(self, x, y, x_vec, y_vec, max_distance=None):
-        valid_x = lambda x : x >= 0 and x < len(self.state[0])
-        valid_y = lambda y : y >= 0 and y < len(self.state)
+        # valid_x = lambda x : x >= 0 and x < len(self.state[0])
+        # valid_y = lambda y : y >= 0 and y < len(self.state)
         distance = 1
         while True:
             target_x = x + (x_vec*distance)
             target_y = y + (y_vec*distance)
-            if not valid_x(target_x) or not valid_y(target_y):
+            #if not valid_x(target_x) or not valid_y(target_y):
+            #    break
+            if not (target_x >= 0 and target_x < len(self.state[0])) or not (target_y >= 0 and target_y < len(self.state)):
                 break
             if self.state[target_y][target_x] == 'L':
                 return 0
@@ -49,7 +52,6 @@ class cabin:
         else:
             surround_care = 4
             max_distance = 1
-        visible_seat = lambda x,y,x_tar,y_tar : x_tar == x or y_tar == y or (abs(x_tar-x) == abs(y_tar-y))
         for y in range(len(self.state)):
             for x in range(len(self.state[0])):
                 surrounding = 0
