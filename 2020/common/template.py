@@ -21,7 +21,7 @@ if __name__ == '__main__':
     global debug
     debug = True
     parser = argparse.ArgumentParser()
-    parser.add_argument("--filename", help="Select an input file. Defaults to input.txt", default="input.txt", type=str)
+    parser.add_argument("filename", help="Select an input file. Defaults to input.txt", default="input.txt", type=str)
     parser.add_argument("-d", help="Debug. Defaults to False", action='store_true')
     args = parser.parse_args()
     if not args.d:
