@@ -94,14 +94,14 @@ def execute_day(tiles):
     }
     next_tiles = {}
     neighboring_tiles = {}
-    for key in tiles.keys():
+    for key in tiles:
         if tiles[key] == 'white':
             continue
         # assume the current tile is black, so 
         # all neighbors get +1 black
         tile = tiles[key]
-        neighbor_list = []
-        for direction in directions.keys():
+        #neighbor_list = []
+        for direction in directions:
             neighbor = list(key)
             # temporarily convert so we can change the value
             # this is bad
@@ -110,34 +110,37 @@ def execute_day(tiles):
             neighbor[1] += directions[direction][1]
             neighbor[2] += directions[direction][2]
             neighbor = tuple(neighbor)
-            neighbor_list.append(neighbor)
-            if neighbor in neighboring_tiles.keys(): # check if black or white
+            #neighbor_list.append(neighbor)
+            if neighbor in neighboring_tiles: # check if black or white
                 neighboring_tiles[neighbor] += 1
             else:
                 neighboring_tiles[neighbor] = 1
         # print("coord: {}, NL: {}".format(key, neighbor_list))
     # print("NT: {}".format(neighboring_tiles))
     next_tiles = {}
-    for tile_coord in list(set(neighboring_tiles.keys()) | set(tiles.keys())):
-        if tile_coord in neighboring_tiles.keys():
+    for tile_coord in list(set(neighboring_tiles) | set(tiles)):
+        if tile_coord in neighboring_tiles:
             neighbor_count = neighboring_tiles[tile_coord]
         else:
             neighbor_count = -1
-        if tile_coord in tiles.keys():
+        if tile_coord in tiles:
             tile_color = tiles[tile_coord]
         else:
             tile_color = 'assumed white'
         # print("Coord: {}: color: {} neighbors: {}".format(tile_coord, tile_color, neighbor_count))
-        if tile_coord in tiles.keys() and tiles[tile_coord] == 'black':
+        if tile_coord in tiles and tiles[tile_coord] == 'black':
             # 0 or >  2 -> white
-            if tile_coord in neighboring_tiles.keys() and neighboring_tiles[tile_coord] <= 2:
+            if tile_coord in neighboring_tiles and neighboring_tiles[tile_coord] <= 2:
                 next_tiles[tile_coord] = 'black'
             else:
                 next_tiles[tile_coord] = 'white'
+                # print("## Tile {} flips to white".format(tile_coord))
         else: # white
-            if tile_coord in neighboring_tiles.keys() and neighboring_tiles[tile_coord] == 2:
+            if tile_coord in neighboring_tiles and neighboring_tiles[tile_coord] == 2:
                 next_tiles[tile_coord] = 'black'
+                # print("# Tile {} flips to black".format(tile_coord))
             # else don't even worry about it, it's white
+    print(len(next_tiles))
     return next_tiles
                 
                 
